@@ -1,11 +1,4 @@
 services:
-  # PostgreSQL Database
-  - type: pserv
-    name: cashclash-db
-    plan: free
-    databaseName: cashclash
-    user: cashclash_user
-
   # Backend Service (FastAPI)
   - type: web
     name: cashclash-backend
@@ -42,3 +35,9 @@ services:
           type: web
           name: cashclash-backend
           envVarKey: RENDER_EXTERNAL_URL
+
+databases:
+  - name: cashclash-db
+    databaseName: cashclash
+    user: cashclash_user
+    plan: free
