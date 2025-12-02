@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, tournaments, matches, store, games, admin
 from database import engine, Base
-
+from .auth import get_password_hash
 app = FastAPI(title="CashClash API")
 
 # CORS

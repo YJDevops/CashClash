@@ -12,7 +12,8 @@ import bcrypt
 import os
 import jwt
 import datetime
-from auth import get_password_hash
+from ..auth import get_password_hash
+
 
 router = APIRouter(
     prefix="/auth",
