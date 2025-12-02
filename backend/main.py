@@ -8,7 +8,9 @@ app = FastAPI(title="CashClash API")
 # CORS
 origins = [
     "http://localhost:3000",
-    "http://localhost:5173", # Vite default
+    "http://localhost:5173",  # Vite default
+    "https://cashclash.onrender.com",  # Production frontend
+    "https://*.onrender.com",  # All Render subdomains
 ]
 
 app.add_middleware(

@@ -1,40 +1,44 @@
 services:
-  # Backend Service
+  # PostgreSQL Database
+  - type: pserv
+    name: cashclash-db
+    plan: free
+    databaseName: cashclash
+    user: cashclash_user
+
+  # Backend Service (FastAPI)
   - type: web
-    name: lol-tournament-backend
-    env: python
+    name: cashclash-backend
+    runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    root: backend
+    rootDir: backend
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: lol-tournament-db
+          name: cashclash-db
           property: connectionString
-      - key: GOOGLE_CLIENT_ID
-        sync: false
       - key: SECRET_KEY
         generateValue: true
+      - key: GOOGLE_CLIENT_ID
+        sync: false
       - key: LLM_API_KEY
         sync: false
       - key: LLM_API_URL
         value: https://api.openai.com/v1/chat/completions
 
-  # Frontend Service
-  - type: static
-    name: lol-tournament-frontend
-    env: static
+  # Frontend Service (React/Vite)
+  - type: web
+    name: cashclash
+    runtime: static
+    plan: free
     buildCommand: npm install && npm run build
-    publish: dist
-    root: frontend
+    staticPublishPath: dist
+    rootDir: frontend
     envVars:
       - key: VITE_API_URL
         fromService:
           type: web
-          name: lol-tournament-backend
-          property: url
-
-databases:
-  - name: lol-tournament-db
-    databaseName: loltournament
-    user: loluser
+          name: cashclash-backend
+          envVarKey: RENDER_EXTERNAL_URL
